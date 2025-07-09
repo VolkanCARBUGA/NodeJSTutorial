@@ -1,0 +1,39 @@
+{
+  // Projenin adı - npm paket adı olarak da kullanılır
+  "name": "3.ejs-tutorial",
+  // Proje sürüm numarası - semantic versioning kurallarına uyar
+  "version": "1.0.0",
+  // Proje açıklaması
+  "description": "",
+  // Uygulamanın giriş noktası - node komutunda hangi dosyanın çalıştırılacağı
+  "main": "index.js",
+  // NPM script'leri - npm run komutu ile çalıştırılabilir
+  "scripts": {
+    // npm test komutu çalıştırıldığında yapılacak işlem
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  // Proje anahtar kelimeleri - npm registry'de arama için
+  "keywords": [],
+  // Proje yazarı
+  "author": "",
+  // Lisans türü - open source projeler için önemli
+  "license": "ISC",
+  // Proje bağımlılıkları - production'da ihtiyaç duyulan paketler
+  "dependencies": {
+    // EJS template engine paketi - HTML template'leri oluşturmak için
+    "ejs": "^3.1.10",
+    // Express web framework - web server oluşturmak için
+    "express": "^4.21.2"
+  }
+}
+
+/*
+Package.json Dosyası:
+
+Bu dosya Node.js projelerinin kalbidir:
+- Proje meta verilerini içerir (ad, versiyon, açıklama)
+- Bağımlılıkları tanımlar (hangi npm paketlerinin kurulacağı)
+- NPM script'lerini barındırır (test, build, start gibi)
+- Node.js modül sistemi için gerekli bilgileri sağlar
+- npm install komutu bu dosyaya bakarak paketleri kurar
+*/

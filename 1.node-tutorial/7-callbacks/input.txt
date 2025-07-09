@@ -1,0 +1,3 @@
+Bu örnek bir metin dosyasıdır.
+Callback hell örneği için kullanılacak.
+Node.js dosya sistemi operasyonları test ediliyor. 

@@ -1,0 +1,39 @@
+<%# HTML5 doküman tipi tanımı %>
+<!DOCTYPE html>
+<%# HTML elementi - sayfa dili İngilizce olarak ayarlanmış %>
+<html lang="en">
+<%# Head bölümü - meta veriler ve sayfa ayarları %>
+<head>
+    <%# Karakter kodlaması - Türkçe karakterler için UTF-8 %>
+    <meta charset="UTF-8">
+    <%# Responsive tasarım için viewport meta tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%# Sayfa başlığı - tarayıcı sekmesinde görünür %>
+    <title>Document</title>
+</head>
+<%# Body bölümü - görünür içerik %>
+<body>
+    <%# Header elementi - sayfa üst kısmı/navigasyon alanı %>
+    <header>
+        <%# Ana başlık - tüm sayfalarda ortak görünecek %>
+        <h1>EJS Template Header</h1>
+    </header>
+    
+<%# Body ve HTML etiketleri açık bırakılmış - diğer template'lerin içerik eklemesi için %>
+</body>
+</html>
+
+<%#
+Header Component Açıklaması:
+
+Bu dosya bir EJS component'idir:
+- Tüm sayfalarda ortak kullanılan HTML yapısını içerir
+- DOCTYPE, HTML, HEAD ve BODY etiketlerini tanımlar
+- Meta taglar ile sayfa ayarlarını yapır
+- Include edildiği sayfalara temel HTML yapısını sağlar
+- Component mimarisi ile kod tekrarını önler
+- Header kısmında ortak navigasyon/başlık alanı oluşturur
+
+Not: Normalde body etiketi kapatılmamalı çünkü diğer sayfalar içerik ekleyecek,
+ancak bu örnekte basitlik için kapatılmış.
+%>

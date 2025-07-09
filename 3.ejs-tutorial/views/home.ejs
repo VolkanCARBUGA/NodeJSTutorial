@@ -1,0 +1,30 @@
+<%# Header component'ini dahil ediyoruz - tekrar kullanılabilir parça %>
+<%- include("components/header") %>
+
+<%# Ana sayfa başlığı - statik HTML %>
+<h1>Welcome to homepage</h1>
+
+<%# Ürün listesi etiketi %>
+<label>List of products</label>
+
+<%# Ürünleri listeleyen dinamik içerik %>
+<ul>
+  <%# JavaScript forEach döngüsü - server'dan gelen products dizisini döner %>
+  <% products.forEach(product=>{ %>
+  <%# Her ürünün fiyatını listeler - <%= %> ile değer yazdırırız %>
+  <li><%= product.price %></li>
+  <%# Döngü kapanış bloğu %>
+  <% }) %>
+</ul>
+
+<%# 
+EJS Template Syntax Açıklaması:
+
+- <% %> : JavaScript kodu yazımı (ekrana çıktı vermez)
+- <%= %> : JavaScript değişken/ifade çıktısı (HTML'e yazdırır)
+- <%- %> : Escape edilmemiş HTML çıktısı (include için kullanılır)
+- <%# %> : Yorum satırı (HTML'e dahil edilmez)
+
+Bu template server'dan gelen 'products' verisini alır ve HTML listesi olarak görüntüler.
+Include ile header component'ini de sayfaya dahil eder.
+%>

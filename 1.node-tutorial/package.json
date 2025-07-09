@@ -1,0 +1,47 @@
+{
+  "name": "nodejstutorial",
+  "version": "1.0.0",
+  "description": "Node.js öğrenim projesi - Temel konulardan async/await'e kadar kapsamlı JavaScript backend eğitimi. Hello World'den Event Emitter'a 10 farklı konu.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node 1-hello-world-node/index.js",
+    "hello": "node 1-hello-world-node/index.js",
+    "modules": "node 2-node-module-system/index.js",
+    "npm-demo": "node 3-node-package-manager/index.js",
+    "path-demo": "node 4-path-module/index.js",
+    "fs-demo": "node 5-file-system/index.js",
+    "server": "node 6-http-module/server.js",
+    "routes": "node 6-http-module/routes.js",
+    "callbacks": "node 7-callbacks/index.js",
+    "callback-hell": "node 7-callbacks/callback-hell.js",
+    "promises": "node 8-promises/index.js",
+    "async-await": "node 9-async-await/index.js",
+    "events": "node 10-event-emitter/index.js"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "backend",
+    "tutorial",
+    "egitim",
+    "async",
+    "await",
+    "promises",
+    "callbacks",
+    "http",
+    "express",
+    "events",
+    "file-system"
+  ],
+  "author": "Node.js Tutorial Project - Türkçe kapsamlı eğitim materyali",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "Yerel Node.js öğrenim projesi"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

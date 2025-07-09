@@ -1,0 +1,17 @@
+<%# Header component'ini sayfaya dahil ediyoruz - ortak layout için %>
+<%- include("components/header") %>
+
+<%# Hakkımızda sayfasının ana içeriği - statik HTML %>
+<h1>This is our about page</h1>
+
+<%#
+About Sayfası:
+
+Bu basit bir EJS template'idir:
+- Header component'ini include eder (ortak navigasyon/header için)
+- Statik HTML içerik gösterir
+- Server'dan veri almaya ihtiyaç duymaz
+- Minimal ve temiz bir sayfa örneğidir
+
+EJS include özelliği sayesinde header kodunu tekrar yazmaya gerek yoktur.
+%>
