@@ -8,7 +8,7 @@ req.userInfo objesine ekler. Korumalı route'lara erişim kontrolü sağlar.
 ==========================================================================
 */
 
-// JWT kütüphanesini import ediyoruz - token doğrulama işlemleri için
+// JWT kütüphanesini import ediyoruz --token doğrulama işlemleri için
 const jwt = require('jsonwebtoken');
 
 // Authentication middleware fonksiyonu
