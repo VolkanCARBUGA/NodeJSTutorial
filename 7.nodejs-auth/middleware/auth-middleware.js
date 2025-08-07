@@ -19,7 +19,7 @@ const authMiddleware = (req,res,next)=>{
   const authHeader = req.headers['authorization'];
   
   // Debug amaçlı authorization header'ını konsola yazdır
-  console.log(authHeader);
+  // console.log(authHeader);
   
   // Token'ı header'dan çıkar - "Bearer " kısmını ayırıp sadece token'ı al
   // authHeader && authHeader.split(' ')[1] - header varsa böl ve ikinci kısmı al
@@ -42,7 +42,7 @@ const authMiddleware = (req,res,next)=>{
         const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
         
         // Debug amaçlı decode edilmiş token bilgilerini yazdır
-        console.log(decodedToken);
+        // console.log(decodedToken);
         
         // Decode edilen token bilgilerini req.userInfo'ya ekle
         // Bu sayede sonraki middleware'ler ve route handler'lar kullanıcı bilgilerine erişebilir

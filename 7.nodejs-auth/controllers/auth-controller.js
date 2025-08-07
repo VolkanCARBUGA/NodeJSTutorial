@@ -28,12 +28,12 @@ KULLANICI KAYIT İŞLEMİ - POST /api/auth/register
 const registerUser = async (req, res) => {
     // Request body'den kullanıcı verilerini destructuring ile alıyoruz
     const { userName, email, password, role } = req.body;
-    
+
     try {
         // Mevcut kullanıcı kontrolü - aynı email veya userName var mı?
         // $or operatörü ile email VEYA userName kontrolü yapılır
-        const existingUser = await User.findOne({$or:[{email},{userName}]});
-        
+        const existingUser = await User.findOne({ $or: [{ email }, { userName }] });
+
         // Eğer kullanıcı zaten mevcutsa hata döndür
         if (existingUser) {
             return res.status(400).json({
@@ -41,41 +41,41 @@ const registerUser = async (req, res) => {
                 message: 'User already exists'     // Hata mesajı
             });
         }
-        
+
         // Şifre hash'leme işlemi - güvenlik için
         // bcrypt.genSalt(10) - 10 rounds salt oluşturur
         const salt = await bcrypt.genSalt(10);
-        
+
         // Şifreyi salt ile hash'ler - plain text şifre veritabanında saklanmaz
-        const hashedPassword = await bcrypt.hash(password,salt);
-        
+        const hashedPassword = await bcrypt.hash(password, salt);
+
         // Yeni kullanıcı objesi oluştur
         // password alanında hash'lenmiş şifre saklanır
-        const newUser = new User({ 
-            userName, 
-            email, 
+        const newUser = new User({
+            userName,
+            email,
             password: hashedPassword,           // Hash'lenmiş şifre
-            role:role||'user'                   // Role belirtilmemişse 'user' varsayılan
+            role: role || 'user'                   // Role belirtilmemişse 'user' varsayılan
         });
-        
+
         // Kullanıcıyı veritabanına kaydet
         await newUser.save();
-        
+
         // Kayıt başarılıysa success response döndür
-        if(newUser){
-            res.status(201).json({ 
+        if (newUser) {
+            res.status(201).json({
                 message: 'User registered successfully',    // Başarı mesajı
                 user: newUser                               // Oluşturulan kullanıcı bilgileri
             });
-        }else{
+        } else {
             // Kayıt başarısızsa error response döndür
-            res.status(400).json({ 
+            res.status(400).json({
                 message: 'Registration failed'             // Hata mesajı
             });
         }
     } catch (error) {
         // Beklenmeyen hata durumları (veritabanı hatası, validation hatası vb.)
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Registration failed',                // Genel hata mesajı
             error: error.message                           // Detaylı hata bilgisi
         });
@@ -93,11 +93,11 @@ KULLANICI GİRİŞ İŞLEMİ - POST /api/auth/login
 const loginUser = async (req, res) => {
     // Request body'den kullanıcı giriş bilgilerini alıyoruz
     const { userName, password } = req.body;
-    
+
     try {
         // Kullanıcıyı userName ile veritabanında bul
         const user = await User.findOne({ userName });
-        
+
         // Kullanıcı bulunamazsa hata döndür
         if (!user) {
             return res.status(401).json({
@@ -109,45 +109,79 @@ const loginUser = async (req, res) => {
         // Şifre doğrulama - girilen şifre ile hash'lenmiş şifreyi karşılaştır
         // bcrypt.compare() hash'lenmiş şifre ile plain text şifreyi güvenli şekilde karşılaştırır
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        
+
         // Şifre yanlışsa hata döndür
         if (!isPasswordValid) {
-            return res.status(401).json({ 
+            return res.status(401).json({
                 success: false,                     // İşlem başarı durumu
                 message: 'Invalid credentials'     // Güvenlik için genel hata mesajı
             });
         }
-        
+
         // JWT ACCESS TOKEN OLUŞTURMA
         // Şifre doğruysa kullanıcı için JWT token oluştur
         const accessToken = jwt.sign({
-            userId:user._id,                        // Kullanıcı ID'si
-            userName:user.userName,                 // Kullanıcı adı
-            role:user.role,                         // Kullanıcı rolü (user/admin)
+            userId: user._id,                        // Kullanıcı ID'si
+            userName: user.userName,                 // Kullanıcı adı
+            role: user.role,                         // Kullanıcı rolü (user/admin)
         },
             process.env.JWT_SECRET,                 // .env'deki secret key ile imzala
-            {expiresIn:'15m'}                       // Token geçerlilik süresi: 15 dakika
+            { expiresIn: '15m' }                       // Token geçerlilik süresi: 15 dakika
         );
-        
+
         // Başarılı giriş response'u
         res.status(200).json({
             success: true,                          // İşlem başarı durumu
             message: 'Login successful',           // Başarı mesajı
-            accessToken:accessToken,                // JWT token
-            user:user                               // Kullanıcı bilgileri
+            accessToken: accessToken,                // JWT token
+            user: user                               // Kullanıcı bilgileri
         });
     } catch (error) {
         // Beklenmeyen hata durumları
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,                         // İşlem başarı durumu
             message: 'Login failed',               // Genel hata mesajı
             error: error.message                    // Detaylı hata bilgisi
         });
     }
 }
+const changePassword = async (req, res) => {
+    try {
+        const userId = req.userInfo.userId;
+        const { oldPassword, newPassword } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'User not found' 
+            });
+        }
+        const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid credentials'
+            });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        await user.save();
+        return res.status(200).json({ 
+            success: true,
+            message: 'Password changed successfully' 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            success: false,
+            message: 'Password change failed', 
+            error: error.message 
+        });
+    }
+}
 
 // Controller fonksiyonlarını dışa aktarıyoruz
-module.exports={registerUser,loginUser};
+module.exports = { registerUser, loginUser, changePassword };
 
 /*
 ==========================================================================

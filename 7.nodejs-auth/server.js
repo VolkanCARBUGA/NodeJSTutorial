@@ -22,6 +22,7 @@ const connectDB=require('./database/db');
 const authRoutes=require('./routes/auth-routes');         // Kimlik doğrulama route'ları (login, register)
 const homeRoutes=require('./routes/home-routes');         // Ana sayfa route'ları (korumalı)
 const adminRoutes=require('./routes/admin-routes');       // Admin route'ları (yüksek yetki gerektiren)
+const imageRoutes=require('./routes/image-routes');       // Image route'ları (resim yükleme)
 
 // Veritabanına bağlantı kuruyoruz - uygulama başlatılmadan önce
 connectDB();
@@ -60,6 +61,10 @@ app.use('/api/home',homeRoutes);
 // Admin route'larını /api/admin prefix'i ile bağlıyoruz
 // Sadece admin yetkisine sahip kullanıcılar erişebilir
 app.use('/api/admin',adminRoutes);
+
+// Image route'larını /api/image prefix'i ile bağlıyoruz
+// Sadece admin yetkisine sahip kullanıcılar erişebilir
+app.use('/api/image',imageRoutes);
 
 // Sunucuyu belirtilen port'ta dinlemeye başlatıyoruz
 // Callback fonksiyonu sunucu başarıyla başladığında çalışır

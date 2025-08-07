@@ -17,7 +17,8 @@ const router = express.Router();
 
 // Auth controller'dan authentication fonksiyonlarını destructuring ile alıyoruz
 // Bu fonksiyonlar HTTP isteklerini işleyecek
-const { registerUser, loginUser } = require('../controllers/auth-controller');
+const { registerUser, loginUser, changePassword } = require('../controllers/auth-controller');
+const authMiddleware = require('../middleware/auth-middleware');
 
 /*
 ==========================================================================
@@ -39,6 +40,12 @@ router.post('/register', registerUser);
 // Request body'de userName, password beklenir
 // Başarılı girişte JWT token döndürür
 router.post('/login', loginUser);
+
+// KULLANICI ŞİFRESİ DEĞİŞTİRME ROUTE'U - POST /api/auth/change-password
+// HTTP Method: POST, Path: /change-password, Handler: changePassword
+// Mevcut kullanıcının şifresini değiştirmek için kullanılır
+// Request body'de oldPassword, newPassword beklenir
+router.post('/change-password', authMiddleware, changePassword);
 
 // Router'ı dışa aktarıyoruz - server.js'te import edilecek
 module.exports = router;
