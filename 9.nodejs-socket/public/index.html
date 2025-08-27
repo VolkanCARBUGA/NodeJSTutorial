@@ -6,11 +6,14 @@
     <title>Chat App</title>
   </head>
   <body>
+    <!-- Online kullanıcılar listesi -->
     <div id="user-list">
       <h3>Online Users</h3>
       <ul id="users"></ul>
     </div>
+    <!-- Chat alanı -->
     <div id="chat">
+      <!-- Mesaj gönderme formu -->
       <form id="message-form">
         <input
           id="message-input"
@@ -21,46 +24,58 @@
         />
         <button type="submit">Send</button>
       </form>
+      <!-- Socket.io client kütüphanesini yüklüyoruz -->
       <script src="/socket.io/socket.io.js"></script>
       <script>
+        // Socket.io bağlantısını oluşturuyoruz
         const socket = io();
+        // DOM elementlerini seçiyoruz
         const messageForm = document.getElementById("message-form");
         const messageInput = document.getElementById("message-input");
         const chat = document.getElementById("chat");
         const userList = document.getElementById("users");
 
+        // Kullanıcıdan isim alıyoruz
         const userName = prompt("Enter your name");
+        // Server'a join olayını gönderiyoruz
         socket.emit("join", userName);
 
+        // Yeni kullanıcı katıldığında
         socket.on("user-joined", (userName) => {
           addMessage(`${userName} joined the chat`);
         });
+        // Kullanıcı ayrıldığında
         socket.on("user-left", (userName) => {
           addMessage(`${userName} left the chat`);
         });
+        // Kullanıcı listesi güncellendiğinde
         socket.on("user-list", (users) => {
+          // Kullanıcı listesini HTML'e render ediyoruz
           userList.innerHTML = users.map((user) => `<li>${user}</li>`).join("");
           
           
         });
+        // Yeni mesaj geldiğinde
         socket.on("chat-message", (message) => {
           addMessage(`${message.userName}: ${message.text}`);
         });
-        // Sayfa reload'unu önleyerekReconnect döngüsünü engelle
+        // Form submit olayını dinliyoruz
         messageForm.addEventListener("submit", (e) => {
-          e.preventDefault();
+          e.preventDefault(); // Sayfa yenilenmesini engelliyoruz
           const text = messageInput.value.trim();
-          if (!text) return;
+          if (!text) return; // Boş mesaj göndermeyi engelliyoruz
+          // Server'a mesaj gönderiyoruz
           socket.emit("chat-message", {  userName,text:text});
           //addMessage(`${userName}: ${text}`);
-          messageInput.value = "";
+          messageInput.value = ""; // Input'u temizliyoruz
         });
 
+       // Mesaj ekleme fonksiyonu
        function addMessage(message){
         const messageElement = document.createElement("div");
         messageElement.textContent = message;
         chat.appendChild(messageElement);
-        chat.scrollTop = chat.scrollHeight;
+        chat.scrollTop = chat.scrollHeight; // Otomatik scroll
        }
        
         
