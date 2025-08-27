@@ -21,6 +21,50 @@
         />
         <button type="submit">Send</button>
       </form>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        const socket = io();
+        const messageForm = document.getElementById("message-form");
+        const messageInput = document.getElementById("message-input");
+        const chat = document.getElementById("chat");
+        const userList = document.getElementById("users");
+
+        const userName = prompt("Enter your name");
+        socket.emit("join", userName);
+
+        socket.on("user-joined", (userName) => {
+          addMessage(`${userName} joined the chat`);
+        });
+        socket.on("user-left", (userName) => {
+          addMessage(`${userName} left the chat`);
+        });
+        socket.on("user-list", (users) => {
+          userList.innerHTML = users.map((user) => `<li>${user}</li>`).join("");
+          
+          
+        });
+        socket.on("chat-message", (message) => {
+          addMessage(`${message.userName}: ${message.text}`);
+        });
+        // Sayfa reload'unu önleyerekReconnect döngüsünü engelle
+        messageForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const text = messageInput.value.trim();
+          if (!text) return;
+          socket.emit("chat-message", {  userName,text:text});
+          //addMessage(`${userName}: ${text}`);
+          messageInput.value = "";
+        });
+
+       function addMessage(message){
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        chat.appendChild(messageElement);
+        chat.scrollTop = chat.scrollHeight;
+       }
+       
+        
+      </script>
     </div>
   </body>
 </html>
