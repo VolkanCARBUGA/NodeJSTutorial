@@ -1,3 +1,21 @@
+## Gerçek Zamanlı İletişim (9.nodejs-socket)
+
+Bu proje, Socket.IO ile gerçek zamanlı bağlantılar, olaylar ve basit oda (room) mantığını gösterir.
+
+- **Sunucu**: `server.js` içinde Socket.IO kurulumu ve olay dinleyicileri.
+- **İstemci**: `public/index.html` ile tarayıcı tarafı bağlantı ve olay yayını.
+
+### Çalıştırma
+```bash
+npm install
+node server.js
+```
+
+Tarayıcıda `http://localhost:3000` adresini açın ve birden çok sekmede etkileşimi test edin.
+
+### Öğrenme Hedefi
+WebSocket/Socket.IO mantığını, olay tabanlı iletişimi ve odalarla mesaj yönlendirmeyi anlamak.
+
 # Node.js Socket.io - Real-time Chat Uygulaması
 
 ## Konu: WebSocket ve Socket.io ile Real-time İletişim

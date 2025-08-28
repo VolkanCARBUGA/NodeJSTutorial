@@ -1,1 +1,48 @@
-node_modules
+1.basics/node_modules/
+2.mongoose-integration/node_modules/
+
+## Genel Node.js
+**/node_modules/
+
+## Ortam değişkenleri
+.env
+.env.*
+**/.env
+**/.env.*
+
+## Log dosyaları
+logs
+**/logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+## Build/derleme çıktıları
+dist/
+build/
+lib/
+tmp/
+temp/
+.cache/
+coverage/
+.nyc_output/
+
+## TypeScript
+*.tsbuildinfo
+
+## Editör/OS dosyaları
+.DS_Store
+*.swp
+.idea/
+.vscode/
+.history
+
+## Diğer
+.eslintcache
+.stylelintcache
+.turbo/
+.vercel/
